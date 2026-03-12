@@ -9,6 +9,7 @@ Thumbs.db
 .vscode/
 .idea/
 .claude/
+.omx/
 
 # Temporary files
 *.tmp
