@@ -28,17 +28,20 @@
 ### 메인 치트시트
 - `Curriculum/Ohouse_SQL_Test_CheatSheet.md`
 
+### 보조 파일 폴더
+- `Curriculum/Ohouse_SQL_Test_Support/README.md`
+
 ### 문법 차이 치트시트
-- `Curriculum/Ohouse_SQL_Syntax_Differences.md`
+- `Curriculum/Ohouse_SQL_Test_Support/Ohouse_SQL_Syntax_Differences.md`
 
 ### 정규표현식 치트시트
-- `Curriculum/Ohouse_SQL_Regex_CheatSheet.md`
+- `Curriculum/Ohouse_SQL_Test_Support/Ohouse_SQL_Regex_CheatSheet.md`
 
 ### 영어/한국어 표현
 - `Concepts/Study_Notes/SQL_Bilingual_Vocabulary.md`
 
 ### 실수 누적 기록
-- `Concepts/Study_Notes/SQL_Mistake_Tracker.md`
+- `Curriculum/Ohouse_SQL_Test_Support/SQL_Mistake_Tracker.md`
 
 ### 채용/시험 비공개 맥락
 - `private/2026-03-11_ohouse_sql_test_context.md`
@@ -64,14 +67,13 @@
 
 ## 4. 현재 우선순위
 
-지금은 **프로그래머스 재풀이 필요 문제부터 다시 푸는 단계**다.
+프로그래머스 재풀이 우선 문제를 한 바퀴 돌린 뒤, 지금은 **오늘의집 특화 Mock + 최종 압축 노트 단계**다.
 
-우선 문제:
-1. 상품을 구매한 회원 비율 구하기
-2. 그룹별 조건에 맞는 식당 목록 출력하기
-3. 입양 시각 구하기(2)
-4. 오프라인-온라인 판매 데이터 통합하기
-5. 업그레이드 할 수 없는 아이템 구하기
+현재 우선 작업:
+1. `Problems/Self-Made/6_채용대비/오늘의집_SQL_Test/` Mock 1~8 패턴 복습
+2. `Curriculum/Ohouse_SQL_Test_CheatSheet.md` 1파일 중심 복습
+3. `Curriculum/Ohouse_SQL_Test_Support/SQL_Mistake_Tracker.md` 최근 실수 재확인
+4. 문법/regex가 필요할 때만 보조 치트시트 열기
 
 ---
 
@@ -107,14 +109,14 @@
 
 - 헷갈린 포인트: `LIKE`에서 `%`와 `_`, 그리고 `서울%` vs `%서울%`
 - 연결 파일:
-  - `Concepts/Study_Notes/SQL_Mistake_Tracker.md`
-  - `Curriculum/Ohouse_SQL_Syntax_Differences.md`
+  - `Curriculum/Ohouse_SQL_Test_Support/SQL_Mistake_Tracker.md`
+  - `Curriculum/Ohouse_SQL_Test_Support/Ohouse_SQL_Syntax_Differences.md`
 
 ---
 
 ## 7. 세션 재시작 시 바로 할 일
 
 1. `Curriculum/Ohouse_SQL_Test_Context.md` 열기
-2. `Curriculum/Ohouse_SQL_Test_Review_Queue.md`에서 현재 재풀이 우선 문제 확인
-3. `Concepts/Study_Notes/SQL_Mistake_Tracker.md`에서 최근 헷갈린 포인트 확인
-4. 문제를 직접 풀고 SQL을 보내기
+2. `Curriculum/Ohouse_SQL_Test_CheatSheet.md` 열기
+3. `Curriculum/Ohouse_SQL_Test_Support/SQL_Mistake_Tracker.md`에서 최근 헷갈린 포인트 확인
+4. 필요할 때만 syntax / regex 치트시트를 추가로 열기

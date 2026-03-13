@@ -36,9 +36,9 @@
 - 재발 방지 한 줄:
   - `prefix 검색 = '문자%'`, contains 검색 = `'%문자%'`, 한 글자 와일드카드 = `'_'`
 - 연결 치트시트:
-  - `Curriculum/Ohouse_SQL_Syntax_Differences.md`
+  - `Curriculum/Ohouse_SQL_Test_Support/Ohouse_SQL_Syntax_Differences.md`
   - `Curriculum/Ohouse_SQL_Test_CheatSheet.md`
-- 필요 시 `LIKE vs REGEXP_LIKE`는 `Curriculum/Ohouse_SQL_Regex_CheatSheet.md`
+- 필요 시 `LIKE vs REGEXP_LIKE`는 `Curriculum/Ohouse_SQL_Test_Support/Ohouse_SQL_Regex_CheatSheet.md`
 
 ---
 
@@ -64,7 +64,7 @@
 - 재발 방지 한 줄:
   - 컬럼 개수 맞출 때 없는 컬럼은 `NULL AS col_name`, 날짜 포맷은 `%Y/%m/%d`가 아니라 `%Y-%m-%d`, 합치기는 중복 제거 없으면 `UNION ALL`
 - 연결 치트시트:
-  - `Curriculum/Ohouse_SQL_Syntax_Differences.md`
+  - `Curriculum/Ohouse_SQL_Test_Support/Ohouse_SQL_Syntax_Differences.md`
   - `Curriculum/Ohouse_SQL_Test_CheatSheet.md`
 
 ---
@@ -114,7 +114,7 @@
   - 구간 문제는 **범위를 먼저 적고 CASE는 큰 구간부터**, 할인 문제는 **최종금액 식을 먼저 세운 뒤 구현**한다
 - 연결 치트시트:
   - `Curriculum/Ohouse_SQL_Test_CheatSheet.md`
-  - `Curriculum/Ohouse_SQL_Syntax_Differences.md`
+  - `Curriculum/Ohouse_SQL_Test_Support/Ohouse_SQL_Syntax_Differences.md`
 
 ---
 
@@ -241,3 +241,47 @@
 - “왜 헷갈렸는지”를 한 줄로 남길 것
 - 반드시 관련 치트시트 파일을 링크할 것
 - 시험 직전에는 이 파일만 훑어도 되게 만들 것
+
+---
+
+## [2026-03-13] 오늘의집 Self-Made Mock 1~8 + Regex Drill 종합 정리
+
+- 카테고리: Data Quality / Funnel / Window Function / Regex / Retention
+- 문제 유형:
+  - anomaly detection
+  - funnel conversion
+  - latest state
+  - duplicate detection
+  - missing rate
+  - monthly user classification
+  - integrity check
+  - session first/last event
+  - regex matching / replace / substr
+- 내가 헷갈리기 쉬운 것:
+  - 이벤트 수와 유저 수를 섞어 세는 것
+  - 최신/첫/마지막 대표 행 문제에서 tie-breaker를 빼먹는 것
+  - 월 단위 분류 문제에서 dedup 없이 바로 `LAG()`를 거는 것
+  - 안티 조인 문제에서 `NOT EXISTS` 대신 위험한 `NOT IN`을 감으로 쓰는 것
+  - regex에서 부분 매칭과 전체 매칭을 혼동하는 것
+- 내가 쓴 오답/헷갈린 포인트:
+  - 퍼널 문제에서 `COUNT(*)`로 세면 이벤트 중복 때문에 과대집계될 수 있음
+  - 최신 상태 문제에서 `MAX(updated_at)`만 구하면 상태 컬럼이 틀어질 수 있음
+  - 세션 첫/마지막 이벤트에서 같은 시각 tie-breaker(`event_id`)를 놓치기 쉬움
+  - 복귀 사용자 문제는 월 dedup을 먼저 하지 않으면 직전 활동 월 계산이 흔들림
+  - 무결성 누락 문제는 기준 집합(`order_completed`)을 먼저 고정해야 함
+  - regex는 `REGEXP_LIKE(col, 'abc')`가 기본적으로 부분 매칭이라는 점을 잊기 쉬움
+- 정답/핵심 포인트:
+  - 이상 탐지 = `GROUP BY DATE` → `LAG()` → 변화율 계산
+  - 퍼널 = 날짜-유저-이벤트 dedup 후 `COUNT(DISTINCT CASE WHEN ...)`
+  - 최신 상태/첫·마지막 이벤트 = `ROW_NUMBER()` + 명시적 tie-breaker
+  - 중복 검출 = 중복 정의 컬럼으로 `GROUP BY` 후 `HAVING COUNT(*) >= 2`
+  - 누락률 = 조건부 합계 / 전체 건수
+  - 신규/현재/복귀 = 월 dedup + `MIN()` + `LAG()`
+  - 무결성 누락 = `NOT EXISTS`
+  - regex 전체 일치 = `^...$`
+- 재발 방지 한 줄:
+  - 오늘의집 스타일 문제는 **grains 고정 → dedup → 집계/윈도우 → NULL/분모0/tie-breaker 점검** 순서로 푼다
+- 연결 치트시트:
+  - `Curriculum/Ohouse_SQL_Test_CheatSheet.md`
+  - `Curriculum/Ohouse_SQL_Test_Support/Ohouse_SQL_Syntax_Differences.md`
+  - `Curriculum/Ohouse_SQL_Test_Support/Ohouse_SQL_Regex_CheatSheet.md`
