@@ -58,6 +58,10 @@ REGEXP_LIKE(col, 'abc')         -- 문자열 어디든 abc가 있으면 참
 REGEXP_LIKE(email, '^[^@]+@[^@]+\\.[^@]+$')
 ```
 
+예시:
+- `abc@test.com` → `1`
+- `abc.com` → `0`
+
 ### `REGEXP_SUBSTR(expr, pat[, pos[, occurrence[, match_type]]])`
 - 매칭된 문자열 반환
 
@@ -72,12 +76,19 @@ REGEXP_SUBSTR('Order#A123', '[0-9]+')   -- 123
 REGEXP_REPLACE(phone, '[^0-9]', '')
 ```
 
+예시:
+- `010-1234-5678` → `01012345678`
+- `(010) 1234 5678` → `01012345678`
+
 ### `REGEXP_INSTR(expr, pat[, pos[, occurrence[, return_option[, match_type]]]])`
 - 매칭 시작 위치 반환
 
 ```sql
 REGEXP_INSTR('abc123xyz', '[0-9]+')
 ```
+
+예시:
+- `abc123xyz`에서 숫자 시작 위치 → `4`
 
 ---
 
@@ -121,11 +132,19 @@ REGEXP_LIKE('1+2', '1\\+2')
 REGEXP_LIKE(col, '^[0-9]+$')
 ```
 
+예시:
+- `12345` → 매칭 O
+- `123a45` → 매칭 X
+
 ### 영문만
 
 ```sql
 REGEXP_LIKE(col, '^[A-Za-z]+$')
 ```
+
+예시:
+- `OpenAI` → 매칭 O
+- `OpenAI1` → 매칭 X
 
 ### 한글만
 
@@ -133,11 +152,20 @@ REGEXP_LIKE(col, '^[A-Za-z]+$')
 REGEXP_LIKE(col, '^[가-힣]+$')
 ```
 
+예시:
+- `오늘의집` → 매칭 O
+- `오늘의집1` → 매칭 X
+
 ### 영문+숫자 조합 코드
 
 ```sql
 REGEXP_LIKE(code, '^[A-Z]{3}[0-9]{2}$')
 ```
+
+예시:
+- `ABC12` → 매칭 O
+- `AB12` → 매칭 X
+- `ABC123` → 매칭 X
 
 ### 이메일 형식 비슷한지 검사
 
@@ -145,17 +173,31 @@ REGEXP_LIKE(code, '^[A-Z]{3}[0-9]{2}$')
 REGEXP_LIKE(email, '^[^@]+@[^@]+\\.[^@]+$')
 ```
 
+예시:
+- `user@company.com` → 매칭 O
+- `usercompany.com` → 매칭 X
+- `user@company` → 매칭 X
+
 ### 전화번호에서 숫자만 남기기
 
 ```sql
 REGEXP_REPLACE(phone, '[^0-9]', '')
 ```
 
+예시:
+- `010-1234-5678` → `01012345678`
+- `010 1234 5678` → `01012345678`
+
 ### 문자열에서 첫 숫자만 추출
 
 ```sql
 REGEXP_SUBSTR(col, '[0-9]+')
 ```
+
+예시:
+- `Order#A123` → `123`
+- `item-999-ready` → `999`
+- `ab12cd34` → `12`
 
 ---
 
@@ -165,6 +207,10 @@ REGEXP_SUBSTR(col, '[0-9]+')
 ```sql
 REGEXP_LIKE(event_type, '^(view_item|add_to_cart|purchase)$')
 ```
+예시:
+- `view_item` → 매칭 O
+- `purchase` → 매칭 O
+- `refund` → 매칭 X
 의미:
 - 셋 중 하나와 **완전 일치**
 맥락:
@@ -175,6 +221,10 @@ REGEXP_LIKE(event_type, '^(view_item|add_to_cart|purchase)$')
 ```sql
 REGEXP_LIKE(phone, '^010[- ]?[0-9]{4}[- ]?[0-9]{4}$')
 ```
+예시:
+- `010-1234-5678` → 매칭 O
+- `010 1234 5678` → 매칭 O
+- `01012345678` → 매칭 O
 의미:
 - `-` 또는 공백이 **있어도 되고 없어도 됨**
 맥락:
@@ -184,6 +234,10 @@ REGEXP_LIKE(phone, '^010[- ]?[0-9]{4}[- ]?[0-9]{4}$')
 ```sql
 REGEXP_LIKE(login_id, '^[A-Za-z0-9_]{6,20}$')
 ```
+예시:
+- `user_01` → 매칭 O
+- `ab` → 매칭 X
+- `veryveryveryverylonguserid` → 매칭 X
 의미:
 - 영문/숫자/언더스코어로만 구성되고 길이는 6~20자
 맥락:
@@ -193,6 +247,9 @@ REGEXP_LIKE(login_id, '^[A-Za-z0-9_]{6,20}$')
 ```sql
 REGEXP_REPLACE(message, '\\s+', ' ')
 ```
+예시:
+- `hello   world` → `hello world`
+- `a		b` → `a b`
 의미:
 - 연속 공백(스페이스/탭 등)을 한 칸으로 정리
 맥락:
@@ -204,6 +261,10 @@ REGEXP_REPLACE(message, '\\s+', ' ')
 REGEXP_LIKE(password_col, '[A-Za-z]')
 AND REGEXP_LIKE(password_col, '[0-9]')
 ```
+예시:
+- `abc123` → 매칭 O
+- `abcdef` → 매칭 X
+- `123456` → 매칭 X
 의미:
 - 영문도 있고 숫자도 있음
 맥락:
